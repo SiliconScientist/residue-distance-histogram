@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 import os
-# %matplotlib inline
 from biopandas.pdb import PandasPdb
 from scipy.spatial.distance import squareform, pdist
 
@@ -31,10 +30,13 @@ def pdb_to_coords(path, index):
 # Generate symmetry mate
 def generate_dimer_coords(coords, matrix, ajustment):
     
-    anti_coords = [None] * len(coords)
+    # List comprehension
+    anti_coords = [np.dot(matrix, coord) for coord in coords]
 
-    for j in range(len(coords)):
-        anti_coords[j] = np.dot(matrix, coords[j])
+    # # Old method
+    # anti_coords = []
+    # for coord in coords:
+    #     anti_coords.append(np.dot(matrix, coord))
 
     # Convert to numpy array
     anti_coords = np.array(anti_coords)
